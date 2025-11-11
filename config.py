@@ -94,25 +94,28 @@ STRING5 = getenv("STRING_SESSION5")
 
 
 # ───── Bot Media Assets ───── #
-START_VIDS = []
+START_VIDS = [
+    "https://files.catbox.moe/hp4toh.mp4"
+]
+
 STICKERS = [
     "CAACAgUAAx0Cd6nKUAACASBl_rnalOle6g7qS-ry-aZ1ZpVEnwACgg8AAizLEFfI5wfykoCR4h4E",
     "CAACAgUAAx0Cd6nKUAACATJl_rsEJOsaaPSYGhU7bo7iEwL8AAPMDgACu2PYV8Vb8aT4_HUPHgQ"
 ]
 
-HELP_IMG_URL = None
-PING_VID_URL = None
-PLAYLIST_IMG_URL = None
-STATS_VID_URL = None
-TELEGRAM_AUDIO_URL = None
-TELEGRAM_VIDEO_URL = None
-STREAM_IMG_URL = None
-SOUNCLOUD_IMG_URL = None
-YOUTUBE_IMG_URL = None
-SPOTIFY_ARTIST_IMG_URL = None
-SPOTIFY_ALBUM_IMG_URL = None
-SPOTIFY_PLAYLIST_IMG_URL = None
-FAILED = None
+HELP_IMG_URL = "https://files.catbox.moe/hp4toh.mp4"
+PING_VID_URL = "https://files.catbox.moe/hp4toh.mp4"
+PLAYLIST_IMG_URL = "https://files.catbox.moe/hp4toh.mp4"
+STATS_VID_URL = "https://files.catbox.moe/hp4toh.mp4"
+TELEGRAM_AUDIO_URL = "https://files.catbox.moe/hp4toh.mp4"
+TELEGRAM_VIDEO_URL = "https://files.catbox.moe/hp4toh.mp4"
+STREAM_IMG_URL = "https://files.catbox.moe/hp4toh.mp4"
+SOUNCLOUD_IMG_URL = "https://files.catbox.moe/hp4toh.mp4"
+YOUTUBE_IMG_URL = "https://files.catbox.moe/hp4toh.mp4"
+SPOTIFY_ARTIST_IMG_URL = "https://files.catbox.moe/hp4toh.mp4"
+SPOTIFY_ALBUM_IMG_URL = "https://files.catbox.moe/hp4toh.mp4"
+SPOTIFY_PLAYLIST_IMG_URL = "https://files.catbox.moe/hp4toh.mp4"
+FAILED = "https://files.catbox.moe/hp4toh.mp4"
 
 # ───── Utility & Functional ───── #
 def time_to_seconds(time: str) -> int:
