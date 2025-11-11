@@ -7,7 +7,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from py_yt import VideosSearch
 
 import config
-from config import BANNED_USERS, HELP_IMG_URL, START_VIDS, STICKERS
+from config import BANNED_USERS
 from strings import get_string
 from HasiiMusic import app
 from HasiiMusic.misc import _boot_
@@ -29,33 +29,31 @@ from HasiiMusic.utils.inline import private_panel, start_panel
 from HasiiMusic.utils.inline.help import help_keyboard
 
 
-async def delete_sticker_after_delay(message, delay):
-    await asyncio.sleep(delay)
-    await message.delete()
-
-
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client, message: Message, _):
     await add_served_user(message.from_user.id)
+
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
+
         if name.startswith("help"):
             keyboard = help_keyboard(_)
-            await message.reply_photo(
-                photo=HELP_IMG_URL,
-                caption=_["help_1"].format(config.SUPPORT_CHAT),
+            await message.reply_text(
+                text=_["help_1"].format(config.SUPPORT_CHAT),
                 reply_markup=keyboard,
             )
+
         elif name.startswith("sud"):
             await sudoers_list(client=client, message=message, _=_)
             if await is_on_off(2):
                 await app.send_message(
                     chat_id=config.LOGGER_ID,
-                    text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>sᴜᴅᴏʟɪsᴛ</b>.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
+                    text=f"{message.from_user.mention} sudo listesini kontrol etti.",
                 )
+
         elif name.startswith("inf"):
-            m = await message.reply_text("🔎")
+            m = await message.reply_text("🔎 Bilgi getiriliyor...")
             query = str(name).replace("info_", "", 1)
             query = f"https://www.youtube.com/watch?v={query}"
             results = VideosSearch(query, limit=1)
@@ -63,11 +61,11 @@ async def start_pm(client, message: Message, _):
                 title = result["title"]
                 duration = result["duration"]
                 views = result["viewCount"]["short"]
-                thumbnail = result["thumbnails"][0]["url"].split("?")[0]
                 channellink = result["channel"]["link"]
                 channel = result["channel"]["name"]
                 link = result["link"]
                 published = result["publishedTime"]
+
             searched_text = _["start_6"].format(
                 title, duration, views, published, channellink, channel, app.mention
             )
@@ -81,35 +79,36 @@ async def start_pm(client, message: Message, _):
                 ]
             )
             await m.delete()
-            await app.send_video(
-                chat_id=message.chat.id,
-                video=thumbnail,
-                caption=searched_text,
+            await message.reply_text(
+                text=searched_text,
                 reply_markup=key,
+                disable_web_page_preview=True,
             )
-            if await is_on_off(2):
-                await app.send_message(
-                    chat_id=config.LOGGER_ID,
-                    text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ</b>.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
-                )
+
     else:
         out = private_panel(_)
-        sticker_message = await message.reply_sticker(sticker=random.choice(STICKERS))
-        asyncio.create_task(delete_sticker_after_delay(sticker_message, 2))
         served_chats = len(await get_served_chats())
         served_users = len(await get_served_users())
         UP, CPU, RAM, DISK = await bot_sys_stats()
-        await message.reply_video(
-            random.choice(START_VIDS),
-            caption=_["start_2"].format(
-                message.from_user.mention, app.mention, UP, DISK, CPU, RAM, served_users, served_chats
-            ),
+        caption = _["start_2"].format(
+            message.from_user.mention,
+            app.mention,
+            UP,
+            DISK,
+            CPU,
+            RAM,
+            served_users,
+            served_chats,
+        )
+        await message.reply_text(
+            caption,
             reply_markup=InlineKeyboardMarkup(out),
         )
+
         if await is_on_off(2):
             await app.send_message(
                 chat_id=config.LOGGER_ID,
-                text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
+                text=f"{message.from_user.mention} bota /start gönderdi.",
             )
 
 
@@ -119,10 +118,8 @@ async def start_gp(client, message: Message, _):
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
     try:
-        await message.reply_video(
-            random.choice(START_VIDS),
-            caption=_["start_1"].format(
-                app.mention, get_readable_time(uptime)),
+        await message.reply_text(
+            _["start_1"].format(app.mention, get_readable_time(uptime)),
             reply_markup=InlineKeyboardMarkup(out),
         )
     except:
@@ -157,9 +154,8 @@ async def welcome(client, message: Message):
                     return await app.leave_chat(message.chat.id)
 
                 out = start_panel(_)
-                await message.reply_video(
-                    random.choice(START_VIDS),
-                    caption=_["start_3"].format(
+                await message.reply_text(
+                    _["start_3"].format(
                         message.from_user.mention,
                         app.mention,
                         message.chat.title,
