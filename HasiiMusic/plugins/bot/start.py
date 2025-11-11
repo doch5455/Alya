@@ -7,7 +7,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from py_yt import VideosSearch
 
 import config
-from config import BANNED_USERS, STICKERS
+from config import BANNED_USERS, HELP_IMG_URL, START_VIDS, STICKERS
 from strings import get_string
 from HasiiMusic import app
 from HasiiMusic.misc import _boot_
@@ -29,143 +29,87 @@ from HasiiMusic.utils.inline import private_panel, start_panel
 from HasiiMusic.utils.inline.help import help_keyboard
 
 
-# ───────────────────────── helpers ─────────────────────────
 async def delete_sticker_after_delay(message, delay):
     await asyncio.sleep(delay)
-    try:
-        await message.delete()
-    except Exception:
-        pass
-
-def _rows_from(markup_or_rows):
-    if isinstance(markup_or_rows, InlineKeyboardMarkup):
-        return markup_or_rows.inline_keyboard
-    return markup_or_rows
-
-def safe_markup(markup_or_rows):
-    """None/boş satırları ve None butonları temizler."""
-    rows = _rows_from(markup_or_rows) or []
-    cleaned = []
-    for r in rows:
-        if not r:
-            continue
-        rr = [b for b in r if isinstance(b, InlineKeyboardButton)]
-        if rr:
-            cleaned.append(rr)
-    return InlineKeyboardMarkup(cleaned) if cleaned else None
-# ───────────────────────────────────────────────────────────
+    await message.delete()
 
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client, message: Message, _):
     await add_served_user(message.from_user.id)
-
-    # /start parametreli
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
-
         if name.startswith("help"):
             keyboard = help_keyboard(_)
-            await message.reply_text(
-                text=_["help_1"].format(config.SUPPORT_CHAT),
-                reply_markup=safe_markup(keyboard),
-                disable_web_page_preview=True
+            await message.reply_photo(
+                photo=HELP_IMG_URL,
+                caption=_["help_1"].format(config.SUPPORT_CHAT),
+                reply_markup=keyboard,
             )
-
         elif name.startswith("sud"):
             await sudoers_list(client=client, message=message, _=_)
             if await is_on_off(2):
                 await app.send_message(
                     chat_id=config.LOGGER_ID,
-                    text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>sᴜᴅᴏʟɪsᴛ</b>.\n\n"
-                         f"<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n"
-                         f"<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
+                    text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>sᴜᴅᴏʟɪsᴛ</b>.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
                 )
-
         elif name.startswith("inf"):
             m = await message.reply_text("🔎")
-            vid_id = str(name).replace("info_", "", 1)
-            query_url = f"https://www.youtube.com/watch?v={vid_id}"
-
-            title = duration = views = channellink = channel = link = published = "—"
-            try:
-                results = VideosSearch(query_url, limit=1)
-                payload = await results.next()
-                items = payload.get("result") or []
-                if items:
-                    r0 = items[0]
-                    title = r0.get("title") or "—"
-                    duration = r0.get("duration") or "—"
-                    views = (r0.get("viewCount") or {}).get("short") or "—"
-                    ch = r0.get("channel") or {}
-                    channellink = ch.get("link") or "—"
-                    channel = ch.get("name") or "—"
-                    link = r0.get("link") or query_url
-                    published = r0.get("publishedTime") or "—"
-            except Exception:
-                link = query_url  # sessiz düş
-
+            query = str(name).replace("info_", "", 1)
+            query = f"https://www.youtube.com/watch?v={query}"
+            results = VideosSearch(query, limit=1)
+            for result in (await results.next())["result"]:
+                title = result["title"]
+                duration = result["duration"]
+                views = result["viewCount"]["short"]
+                thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+                channellink = result["channel"]["link"]
+                channel = result["channel"]["name"]
+                link = result["link"]
+                published = result["publishedTime"]
             searched_text = _["start_6"].format(
                 title, duration, views, published, channellink, channel, app.mention
             )
-
             key = InlineKeyboardMarkup(
-                [[
-                    InlineKeyboardButton(text=_["S_B_6"], url=link),
-                    InlineKeyboardButton(text=_["S_B_4"], url=config.SUPPORT_CHAT),
-                ]]
+                [
+                    [
+                        InlineKeyboardButton(text=_["S_B_6"], url=link),
+                        InlineKeyboardButton(
+                            text=_["S_B_4"], url=config.SUPPORT_CHAT),
+                    ]
+                ]
             )
-            try:
-                await m.delete()
-            except Exception:
-                pass
-
-            await app.send_message(
+            await m.delete()
+            await app.send_video(
                 chat_id=message.chat.id,
-                text=searched_text,
-                reply_markup=safe_markup(key),
-                disable_web_page_preview=True
+                video=thumbnail,
+                caption=searched_text,
+                reply_markup=key,
             )
-
             if await is_on_off(2):
                 await app.send_message(
                     chat_id=config.LOGGER_ID,
-                    text=f"{message.from_user.mention} checked <b>track info</b>.\n\n"
-                         f"<b>ID:</b> <code>{message.from_user.id}</code>\n"
-                         f"<b>Username:</b> @{message.from_user.username}",
+                    text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ</b>.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
                 )
-
-    # Parametresiz /start
     else:
         out = private_panel(_)
-
-        # STICKERS boşsa gönderme
-        try:
-            if STICKERS and isinstance(STICKERS, (list, tuple)):
-                sticker_message = await message.reply_sticker(sticker=random.choice(STICKERS))
-                asyncio.create_task(delete_sticker_after_delay(sticker_message, 2))
-        except Exception:
-            pass
-
+        sticker_message = await message.reply_sticker(sticker=random.choice(STICKERS))
+        asyncio.create_task(delete_sticker_after_delay(sticker_message, 2))
         served_chats = len(await get_served_chats())
         served_users = len(await get_served_users())
         UP, CPU, RAM, DISK = await bot_sys_stats()
-
-        await message.reply_text(
-            text=_["start_2"].format(
+        await message.reply_video(
+            random.choice(START_VIDS),
+            caption=_["start_2"].format(
                 message.from_user.mention, app.mention, UP, DISK, CPU, RAM, served_users, served_chats
             ),
-            reply_markup=safe_markup(out),
-            disable_web_page_preview=True
+            reply_markup=InlineKeyboardMarkup(out),
         )
-
         if await is_on_off(2):
             await app.send_message(
                 chat_id=config.LOGGER_ID,
-                text=f"{message.from_user.mention} started the bot.\n\n"
-                     f"<b>ID:</b> <code>{message.from_user.id}</code>\n"
-                     f"<b>Username:</b> @{message.from_user.username}",
+                text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
             )
 
 
@@ -175,12 +119,13 @@ async def start_gp(client, message: Message, _):
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
     try:
-        await message.reply_text(
-            text=_["start_1"].format(app.mention, get_readable_time(uptime)),
-            reply_markup=safe_markup(out),
-            disable_web_page_preview=True
+        await message.reply_video(
+            random.choice(START_VIDS),
+            caption=_["start_1"].format(
+                app.mention, get_readable_time(uptime)),
+            reply_markup=InlineKeyboardMarkup(out),
         )
-    except Exception:
+    except:
         pass
     return await add_served_chat(message.chat.id)
 
@@ -191,18 +136,15 @@ async def welcome(client, message: Message):
         try:
             language = await get_lang(message.chat.id)
             _ = get_string(language)
-
             if await is_banned_user(member.id):
                 try:
                     await message.chat.ban_member(member.id)
-                except Exception:
+                except:
                     pass
-
             if member.id == app.id:
                 if message.chat.type != ChatType.SUPERGROUP:
                     await message.reply_text(_["start_4"])
                     return await app.leave_chat(message.chat.id)
-
                 if message.chat.id in await blacklisted_chats():
                     await message.reply_text(
                         _["start_5"].format(
@@ -215,19 +157,17 @@ async def welcome(client, message: Message):
                     return await app.leave_chat(message.chat.id)
 
                 out = start_panel(_)
-                await message.reply_text(
-                    text=_["start_3"].format(
+                await message.reply_video(
+                    random.choice(START_VIDS),
+                    caption=_["start_3"].format(
                         message.from_user.mention,
                         app.mention,
                         message.chat.title,
                         app.mention,
                     ),
-                    reply_markup=safe_markup(out),
-                    disable_web_page_preview=True
+                    reply_markup=InlineKeyboardMarkup(out),
                 )
-
                 await add_served_chat(message.chat.id)
                 await message.stop_propagation()
-
         except Exception as ex:
-            print("welcome handler error:", ex)
+            print(ex)
