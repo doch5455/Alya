@@ -95,7 +95,9 @@ STRING5 = getenv("STRING_SESSION5")
 
 # ───── Bot Media Assets ───── #
 START_VIDS = []
-STICKERS = []
+STICKERS = [
+    "CAACAgUAAx0Cd6nKUAACASBl_rnalOle6g7qS-ry-aZ1ZpVEnwACgg8AAizLEFfI5wfykoCR4h4E",
+    "CAACAgUAAx0Cd6nKUAACATJl_rsEJOsaaPSYGhU7bo7iEwL8AAPMDgACu2PYV8Vb8aT4_HUPHgQ"
 
 HELP_IMG_URL = None
 PING_VID_URL = None
