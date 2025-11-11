@@ -64,13 +64,13 @@ HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 
 # ───── Git & Updates ───── #
 UPSTREAM_REPO = getenv(
-    "UPSTREAM_REPO", "https://github.com/doch5455/joni")
+    "UPSTREAM_REPO", "https://github.com/doch5455/Alya")
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "main")
 GIT_TOKEN = getenv("GIT_TOKEN")
 
 # ───── Support & Community ───── #
 SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/maviduyuru")
-SUPPORT_CHAT = getenv("SUPPORT_CHAT", None)
+SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/kraliyetchattr")
 
 # ───── Assistant Auto Leave ───── #
 AUTO_LEAVING_ASSISTANT = False
