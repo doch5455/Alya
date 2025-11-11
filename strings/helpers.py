@@ -1,46 +1,43 @@
 HELP_1 = """
-<b><u>🎧 Temel Müzik Komutları</u></b>
+<b><u>🎧 TEMEL MÜZİK KOMUTLARI</u></b>
 
 • /oynat [şarkı adı veya link] — Şarkı oynatır.  
 • /voynat [video adı veya link] — Video oynatır.  
-• /dur — Şarkıyı duraklatır.  
-• /devam — Şarkıyı devam ettirir.  
-• /atla — Sonraki şarkıya geçer.  
-• /dur — Çalmayı tamamen durdurur.  
 • /kuyruk — Sıradaki parçaları gösterir.  
-• /dongu [1-10] — Aynı şarkıyı tekrarlatır.
+• /song [isim/link] — YouTube'dan şarkı indirir.  
+• /lyrics [şarkı adı] — Şarkı sözlerini bulur.
 """
 
 HELP_2 = """
-<b><u>🛠️ Yönetici Komutları</u></b>
+<b><u>🛠️ YÖNETİCİ KOMUTLARI</u></b>
 
-• /auth [kullanıcı] — Yetki verir.  
-• /unauth [kullanıcı] — Yetkiyi kaldırır.  
-• /authusers — Yetkilileri listeler.  
+• /dur — Şarkıyı duraklatır.  
+• /devam — Şarkıyı devam ettirir.  
+• /atla — Sonraki şarkıya geçer.  
+• /durdur — Çalmayı tamamen durdurur.  
+• /dongu [1-10] — Aynı şarkıyı tekrarlatır.  
 • /blacklistchat [id] — Grubu kara listeye alır.  
 • /whitelistchat [id] — Grubu beyaz listeye alır.  
 • /blacklistedchat — Kara listedeki grupları gösterir.
 """
 
 HELP_3 = """
-<b><u>🌍 Genel Komutlar</u></b>
+<b><u>🌍 GENEL KOMUTLAR</u></b>
 
 • /start — Botu başlatır.  
-• /help — Bu yardım menüsünü gösterir.  
-• /ping — Gecikme süresini gösterir.  
+• /help — Yardım menüsünü gösterir.  
+• /ping — Gecikme süresini ölçer.  
 • /stats — Bot istatistiklerini gösterir.  
-• /song [isim/link] — YouTube'dan şarkı indirir.  
-• /lyrics [şarkı adı] — Şarkı sözlerini bulur.  
 • /id — Kullanıcı veya grup ID’sini gösterir.
 """
 
 HELP_4 = """
-<b><u>💎 Ekstra Özellikler</u></b>
+<b><u>💎 EKSTRA ÖZELLİKLER</u></b>
 
-• /broadcast [mesaj] — Botun bulunduğu tüm gruplara mesaj yollar. (Yalnızca sahip)  
+• /broadcast [mesaj] — Botun bulunduğu tüm gruplara mesaj yollar. (Sahip)  
 • /maintenance [on/off] — Botu bakım moduna alır.  
-• /gban [kullanıcı] — Kullanıcıyı tüm gruplarda engeller.  
+• /gban [kullanıcı] — Kullanıcıyı tüm gruplarda yasaklar.  
 • /ungban [kullanıcı] — Global yasağı kaldırır.  
-• /logs — Günlük kayıtlarını gösterir.  
-• /maviduyuru — En son mavi ekip duyurularını gösterir 💙
+• /logs — Günlük log kayıtlarını gösterir.  
+• /maviduyuru — En son <b>Mavi Ekip</b> duyurularını gösterir 💙
 """
