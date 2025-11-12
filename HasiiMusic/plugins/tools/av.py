@@ -36,7 +36,7 @@ from HasiiMusic import app
             "dart",
             "basket",
             "basketball",
-            "football",
+            "futbol",
             "slot",
             "bowling",
             "jackpot",
