@@ -41,3 +41,36 @@ HELP_4 = """
 • /logs — Günlük log kayıtlarını gösterir.  
 • /maviduyuru — En son <b>Mavi Ekip</b> duyurularını gösterir 💙
 """
+
+HELP_5 = """
+<b><u>🍂 Canım sevgilim </u></b>
+
+• /bakiye — Coin bakiyeni gösterir.  
+• /hediyeler — Tüm hediyeleri listeler.  
+• /hediyegonder @kullanıcı 🌹 — Hediye gönderir.  
+• /hediyem — Aldığın hediyeleri gösterir.  
+• /hikaye İsim1 İsim2 — Aşk hikayesi oluşturur.  
+• /liderlik — En zengin kullanıcıları listeler.
+
+botun olduğu herhangi bir grupta aktif oldukça coin kazanırsın
+"""
+
+HELP_6 = """
+<b><u>🕹️ etiket</u></b>
+
+• /utag [metin] — Herkesi etiketler.  
+• /admintag [metin] — Yöneticileri etiketler.  
+• /cancel — Etiketlemeyi durdurur.
+"""
+
+HELP_7 = """
+<b><u>🎀 oyun komutlar </u></b>
+
+• /dice — Zar atar.  
+• /dart — Dart atar.  
+• /basket — Basket atışı yapar.  
+• /football — Futbol oynar.  
+• /slot — Slot makinesi çevirir.  
+• /bored — Rastgele etkinlik önerir.
+
+
