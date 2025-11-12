@@ -72,5 +72,6 @@ HELP_7 = """
 • /football — Futbol oynar.  
 • /slot — Slot makinesi çevirir.  
 • /bored — Rastgele etkinlik önerir.
+"""
 
 
