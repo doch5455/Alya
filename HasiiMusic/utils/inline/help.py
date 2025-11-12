@@ -4,9 +4,9 @@ from HasiiMusic import app
 
 def help_keyboard(_):
     buttons = []
-    # 🔹 Sadece 4 başlık gösterilir (H_B_1 - H_B_4)
-    for i in range(1, 5):
-        if (i - 1) % 2 == 0:  # 2'şer buton yan yana, daha düzenli görünüm
+    # 🔹 7 başlık gösterilir (H_B_1 - H_B_7)
+    for i in range(1, 8):
+        if (i - 1) % 2 == 0:  # 2'şer buton yan yana
             buttons.append([])
         buttons[-1].append(
             InlineKeyboardButton(
