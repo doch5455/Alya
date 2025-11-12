@@ -4,9 +4,10 @@ from HasiiMusic import app
 
 def help_keyboard(_):
     buttons = []
-    # 🔹 7 başlık gösterilir (H_B_1 - H_B_7)
-    for i in range(1, 8):
-        if (i - 1) % 2 == 0:  # 2'şer buton yan yana
+
+    # 🔹 İlk 4 başlık (2'şer buton yan yana)
+    for i in range(1, 5):
+        if (i - 1) % 2 == 0:
             buttons.append([])
         buttons[-1].append(
             InlineKeyboardButton(
@@ -15,7 +16,25 @@ def help_keyboard(_):
             )
         )
 
-    # 🔹 En alt satırda Menü ve Kapat butonları
+    # 🔹 Son 3 başlık (3'ü aynı satırda)
+    buttons.append(
+        [
+            InlineKeyboardButton(
+                text=_[f"H_B_5"],
+                callback_data="help_callback hb5"
+            ),
+            InlineKeyboardButton(
+                text=_[f"H_B_6"],
+                callback_data="help_callback hb6"
+            ),
+            InlineKeyboardButton(
+                text=_[f"H_B_7"],
+                callback_data="help_callback hb7"
+            ),
+        ]
+    )
+
+    # 🔹 En alt satırda Menü ve Kapat
     buttons.append(
         [
             InlineKeyboardButton(
@@ -28,6 +47,7 @@ def help_keyboard(_):
             )
         ]
     )
+
     return InlineKeyboardMarkup(buttons)
 
 
@@ -53,7 +73,7 @@ def private_help_panel(_):
         [
             InlineKeyboardButton(
                 text=_["S_B_3"],
-                url="https://t.me/{0}?start=help".format(app.username)
+                url=f"https://t.me/{app.username}?start=help"
             )
         ]
     ]
