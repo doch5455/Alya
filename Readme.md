@@ -1,165 +1,127 @@
+# 🎵 Shruti Music Bot 🎵
 
 <p align="center">
-  <a href="https://t.me/musicxhasii">
-    <img src="https://files.catbox.moe/und0yt.jpg" width="600">
-  </a>
+  <img src="ShrutiMusic/assets/equalizer.svg" width="100%" height="500">
 </p>
 
-## 🌟 Intro about application?
+<div align="center">
+  <h1>🎵 Shruti Music Bot 🎵</h1>
 
-**HasiiMusicBot** is a modern Telegram music bot built using Pyrogram and PyTgCalls. It streams high quality music in group voice chats. it supports various platforms like YouTube, Spotify.
+  <p><b>Telegram sesli sohbetlerde şarkı çalabilen güçlü bir Müzik Botu</b></p>
 
+  <!-- Kalın ve canlı rozetler -->
+  <p>
+    <!-- Mavi Duyuru eklendi -->
+    <a href="https://t.me/MaviDuyuru">
+      <img src="https://img.shields.io/badge/Mavi%20Duyuru-0080FF?style=for-the-badge&logo=telegram&logoColor=white&labelColor=001F3F" alt="Mavi Duyuru">
+    </a>
+    <a href="https://t.me/ShrutiBots">
+      <img src="https://img.shields.io/badge/Destek%20Kanalı-FF0000?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000" alt="Destek Kanalı">
+    </a>
+    <a href="https://t.me/ShrutiBotSupport">
+      <img src="https://img.shields.io/badge/Destek%20Grubu-00FF00?style=for-the-badge&logo=telegram&logoColor=black&labelColor=FF0000" alt="Destek Grubu">
+    </a>
+    <a href="https://t.me/WTF_WhyMeeh">
+      <img src="https://img.shields.io/badge/Sahip-FFFF00?style=for-the-badge&logo=telegram&logoColor=black&labelColor=8A2BE2" alt="Sahip">
+    </a>
+  </p>
 
-## 🔑 Environment Variables
-
-Below are the required and optional environment variables for deployment.
-
-```env
-API_ID=              # Required
-API_HASH=            # Required
-BOT_TOKEN=           # Required
-OWNER_ID=            # Required - Telegram user ID
-LOGGER_ID=           # Required - Log group/channel ID
-STRING_SESSION=      # Required 
-MONGO_DB_URI=        # Required 
-COOKIE_URL=          # Required 
-
-API_KEY=             # Optional
-API_URL=             # Optional
-```
-
-⚠️ Use safe paste services like [Pastebin](https://pastebin.com) or [Batbin](https://batbin.me) for save cookies (YT Cookies).
-
-
-### 🎧 Recommended streaming quality overrides
-
-To get the clearest playback, drop these keys in your `.env` (or keep the same values from `sample.env`). They align with PyTgCalls’ highest quality presets and yt-dlp’s high-bitrate formats while staying compatible with most hosting setups.
-
-```env
-# Audio-only voice chats
-STREAM_AUDIO_ONLY_QUALITY=studio
-
-# Audio track inside video calls
-STREAM_VIDEO_AUDIO_QUALITY=studio
-
-# Outgoing video resolution
-STREAM_VIDEO_QUALITY=fhd_1080p
-
-# yt-dlp format preferences
-YTDLP_AUDIO_FORMAT=bestaudio[abr>=256]/bestaudio/best
-YTDLP_VIDEO_FORMAT=best[height<=?1080][width<=?1920]
-YTDLP_PREFERRED_AUDIO_BITRATE=320
-```
-
-
-### ☕ VPS Setup Guide
-
-```bash
-🎵 Deploy  on VPS
-
-### Step 1: Update & Install Packages
-sudo apt update && sudo apt upgrade -y
-sudo apt install git curl python3-pip python3-venv ffmpeg -y
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt install -y nodejs
-npm install -g npm
-
-### Step 2: Clone Repo
-git clone repo_link
-cd file_name
-tmux new -s bot_name
-
-### Step 3: Setup & Run
-python3 -m venv venv
-source venv/bin/activate
-pip install -U pip && pip install -r requirements.txt
-bash setup   # Fill environment variables
-bash start   # Start bot
-
-### Useful Commands
-tmux detach         # Use Ctrl+B, then D
-tmux attach-session -t tune # Attach to Running Bot session
-tmux kill-session -t tune # to kill the running bot session
-rm -rf TuneViaBot  # Uninstall the repo
-```
-
-  </details>
+  <!-- Sosyal istatistikler -->
+  <p>
+    <a href="https://github.com/NoxxOP/ShrutiMusic/fork">
+      <img src="https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?style=social&logo=github&labelColor=FF1493&color=00CED1" alt="GitHub Forks">
+    </a>
+    <a href="https://github.com/NoxxOP/ShrutiMusic/stargazers">
+      <img src="https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?style=social&logo=github&labelColor=FF4500&color=32CD32" alt="GitHub Stars">
+    </a>
+    <a href="https://github.com/NoxxOP/ShrutiMusic/graphs/contributors">
+      <img src="https://img.shields.io/github/contributors/NoxxOP/ShrutiMusic?style=social&logo=github&labelColor=DC143C&color=FFD700" alt="GitHub Contributors">
+    </a>
+  </p>
 </div>
 
-##
+---
 
-### 🐳 Docker Deployment
+## 🚀 Hızlı Kurulum Seçenekleri
 
-<img src="https://img.shields.io/badge/Show%20/Hide-Docker%20Steps-10b981?style=for-the-badge" alt="Toggle Docker Steps"/>
+<div align="center">
 
-<div align="left">
-  <details>
+  ### 🔥 Heroku’ya Dağıt
+  <a href="https://dashboard.heroku.com/new?template=https://github.com/NoxxOP/ShrutiMusic">
+    <img src="https://img.shields.io/badge/Heroku'ya%20Dağıt-FF0080?style=for-the-badge&logo=heroku&logoColor=white&labelColor=000080" width="280px" alt="Deploy to Heroku">
+  </a>
 
-```bash
-### Step 1: Clone Repo
-git clone https://github.com/CertifiedCoders/TuneViaBot
-cd TuneViaBot
+  ### ☁️ Render’a Dağıt (Ücretsiz)
+  <a href="https://render.com/deploy?repo=https://github.com/NoxxOP/ShrutiMusic">
+    <img src="https://img.shields.io/badge/Render'a%20Dağıt-00FF80?style=for-the-badge&logo=render&logoColor=black&labelColor=800080" width="280px" alt="Deploy to Render">
+  </a>
 
-### Step 2: Create .env File
-nano .env
-# Paste your environment variables here and save (Ctrl+O, Enter, Ctrl+X)
+  ### 🎵 Basit Müzik Botu
+  <a href="https://github.com/NoxxOP/ShrutixMusic">
+    <img src="https://img.shields.io/badge/Basit%20Müzik%20Botu-FF4000?style=for-the-badge&logo=github&logoColor=white&labelColor=008000" width="280px" alt="Simple Music Bot">
+  </a>
 
-### Step 3: Build Image
-docker build -t tuneviabot .
-
-### Step 4: Run Container
-docker run -d --name tune --env-file .env --restart unless-stopped tuneviabot
-
-### Step 5: Manage Container
-docker logs -f tune        # View logs (Ctrl+C to exit)
-docker stop tune           # Stop container
-docker start tune          # Start again
-docker rm -f tune          # Remove container
-docker rmi tuneviabot      # Remove image
-```
-
-  </details>
 </div>
 
+---
 
+## ✨ Özellikler
 
-##
-### ☁️ Quick Deploy
+<div align="center">
 
-| Platform                | Deploy Link                                                                                                                                                                                               |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🔑 **Generate Session** | <a href="https://t.me/SessionBuilderbot"><img src="https://img.shields.io/badge/Session%20-Generator-blue?style=for-the-badge&logo=telegram"/></a>                                                    |
-| 🌍 **Heroku Deploy**    | <a href="http://dashboard.heroku.com/new?template=https://github.com/CertifiedCoders/TuneViaBot"><img src="https://img.shields.io/badge/Deploy%20to-Heroku-purple?style=for-the-badge&logo=heroku"/></a> |
+| 🎵 **Müzik Çalma** | 🔗 **Birden Fazla Kaynak** | 📋 **Oynatma Listeleri** | 🌐 **Çok Dilli** |
+|:------------------:|:--------------------------:|:------------------------:|:----------------:|
+| Telegram sesli sohbetlerde yüksek kaliteli yayın | YouTube, Spotify, SoundCloud ve yerel dosyalar | Grup için listeler oluştur / yönet | Birden fazla dil desteği |
 
+| 🎨 **Zarif Arayüz** | 👑 **Grup Yönetimi** | 🔊 **Yüksek Kalite** | ⚡ **Hızlı ve Stabil** |
+|:-------------------:|:---------------------:|:---------------------:|:---------------------:|
+| Modern ve temiz UI | Güçlü yönetici komutları | Kristal netliğinde ses | Işık hızında tepki |
 
+</div>
 
+---
 
-## 💬 Community & Support
+## 📊 Depo İstatistikleri
 
-<p align="center">
-  <a href="https://t.me/CertifiedCoders">
-    <img src="https://img.shields.io/badge/Support_Group-Telegram-0088cc?style=for-the-badge&logo=telegram&logoColor=white" />
-  </a>
-  <a href="https://t.me/CertifiedCodes">
-    <img src="https://img.shields.io/badge/Updates_Channel-Telegram-6A5ACD?style=for-the-badge&logo=telegram&logoColor=white" />
-  </a>
-  <a href="https://t.me/CertifiedCoder">
-    <img src="https://img.shields.io/badge/Contact_Owner-Telegram-4CAF50?style=for-the-badge&logo=telegram&logoColor=white" />
-  </a>
-  <a href="https://youtube.com/@rajnisha3">
-    <img src="https://img.shields.io/badge/Subscribe-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
-  </a>
-  <a href="https://instagram.com/rajnishthegreat">
-    <img src="https://img.shields.io/badge/Follow-Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
-  </a>
-  <a href="mailto:rajnishmishraaa1@gmail.com">
-    <img src="https://img.shields.io/badge/Contact-Email-0078D4?style=for-the-badge&logo=gmail&logoColor=white" />
-  </a>
-</p>
+<div align="center">
+  <img src="https://img.shields.io/github/repo-size/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=FF1493&labelColor=000080" alt="Repo Boyutu">
+  <img src="https://img.shields.io/github/issues/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=FF4500&labelColor=008B8B" alt="Issues">
+  <img src="https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=32CD32&labelColor=8B0000" alt="Forks">
+  <img src="https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=FFD700&labelColor=4B0082" alt="Stars">
+  <img src="https://img.shields.io/github/license/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=00CED1&labelColor=DC143C" alt="Lisans">
+  <img src="https://img.shields.io/github/last-commit/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=FF6347&labelColor=2F4F4F" alt="Son Commit">
+</div>
 
+---
 
-##
-### 🔖 Credits
+## 🔥 Temel Komutlar
 
-* <b> *sᴩᴇᴄɪᴀʟ ᴛʜᴀɴᴋs ᴛᴏ <a href="https://github.com/AnonymousX1025">ᴀɴᴏɴʏ</a> ғᴏʀ <a href="https://github.com/AnonymousX1025/AnonXMusic">ᴀɴᴏɴxᴍᴜsɪᴄ</a>* </b>
-* <b> *ᴄʀᴀғᴛᴇᴅ ᴡɪᴛʜ ᴘᴀssɪᴏɴ ʙʏ <a href="https://github.com/CertifiedCoders">ᴄᴇʀᴛɪғɪᴇᴅ ᴄᴏᴅᴇʀs</a>* </b>
+> **Not:** Komut adları değiştirilmemiştir; sadece açıklamalar Türkçeye çevrilmiştir.
+
+<div align="center">
+
+| Komut | Açıklama | Kullanım |
+|------|----------|---------|
+| `/play` | 🎵 YouTube’dan şarkı çalar | `/play [şarkı adı/URL]` |
+| `/pause` | ⏸️ Mevcut yayını duraklatır | `/pause` |
+| `/resume` | ▶️ Duraklatılan yayına devam eder | `/resume` |
+| `/skip` | ⏭️ Sonraki şarkıya geçer | `/skip` |
+| `/stop` | ⏹️ Yayını durdurur | `/stop` |
+| `/playlist` | 📋 Oynatma listesini gösterir | `/playlist` |
+| `/song` | 📥 Şarkıyı ses dosyası olarak indirir | `/song [şarkı adı]` |
+| `/settings` | ⚙️ Bot ayarlarını açar | `/settings` |
+
+</div>
+
+---
+
+## 🚀 Kurulum Rehberi
+
+### 🔧 VPS Kurulumu (Adım Adım)
+
+#### Gereksinimler
+
+Sistemi güncelleyin:
+
+```bash
+sudo apt-get update && sudo apt-get upgrade -y
