@@ -3,30 +3,24 @@
 #
 # All rights reserved.
 #
-# Bu kod, Nand Yaduwanshi'nin fikrî mülkiyetidir.
-# Açık izin olmadan bu kodu kopyalamak, değiştirmek, yeniden dağıtmak
-# veya ticari/kişisel projelerde kullanmak yasaktır.
-#
-# İzin Verilenler:
-# - Kişisel öğrenme amacıyla fork etmek
-# - Pull request ile iyileştirme göndermek
-#
-# İzin Verilmeyenler:
-# - Kodu kendinize aitmiş gibi göstermek
-# - İzin ve/veya kredi vermeden yeniden yüklemek
-# - Satmak veya ticari olarak kullanmak
-#
-# İzinler için iletişim:
-# E-posta: badboy809075@gmail.com
-#
 # Not: Bu dosyada yalnızca kullanıcıya görünen metinler Türkçeleştirilmiştir.
 
+import random
 import requests
 from pyrogram import filters
-from pyrogram.types import Message
+from pyrogram.types import (
+    Message,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    CallbackQuery,
+)
 
 from HasiiMusic import app
 
+
+# ────────────────────────────────────────────────
+# 🎲 DİCE / OYUN EMOJİLERİ
+# ────────────────────────────────────────────────
 
 @app.on_message(
     filters.command(
@@ -44,76 +38,173 @@ from HasiiMusic import app
     )
 )
 async def dice(c, m: Message):
-    command = m.text.split()[0]
+    cmd = m.text.split()[0].lower()
 
-    if command in ("/dice", "/ludo"):
+    mapping = {
+        "/dice": None,
+        "/ludo": None,
+        "/dart": "🎯",
+        "/basket": "🏀",
+        "/basketball": "🏀",
+        "/futbol": "⚽",
+        "/football": "⚽",
+        "/slot": "🎰",
+        "/jackpot": "🎰",
+        "/bowling": "🎳",
+    }
+
+    emoji = mapping.get(cmd)
+
+    if emoji is None:
         value = await c.send_dice(m.chat.id, reply_to_message_id=m.id)
-        await value.reply_text("Skorun: {0}".format(value.dice.value))
+    else:
+        value = await c.send_dice(m.chat.id, emoji=emoji, reply_to_message_id=m.id)
 
-    elif command == "/dart":
-        value = await c.send_dice(m.chat.id, emoji="🎯", reply_to_message_id=m.id)
-        await value.reply_text("Skorun: {0}".format(value.dice.value))
-
-    elif command in ("/basket", "/basketball"):
-        basket = await c.send_dice(m.chat.id, emoji="🏀", reply_to_message_id=m.id)
-        await basket.reply_text("Skorun: {0}".format(basket.dice.value))
-
-    elif command == "/football":
-        value = await c.send_dice(m.chat.id, emoji="⚽", reply_to_message_id=m.id)
-        await value.reply_text("Skorun: {0}".format(value.dice.value))
-
-    elif command in ("/slot", "/jackpot"):
-        value = await c.send_dice(m.chat.id, emoji="🎰", reply_to_message_id=m.id)
-        await value.reply_text("Skorun: {0}".format(value.dice.value))
-
-    elif command == "/bowling":
-        value = await c.send_dice(m.chat.id, emoji="🎳", reply_to_message_id=m.id)
-        await value.reply_text("Skorun: {0}".format(value.dice.value))
+    await value.reply_text(f"Skorun: {value.dice.value}")
 
 
-bored_api_url = "https://apis.scrimba.com/bored/api/activity"
+# ────────────────────────────────────────────────
+# 😐 BORED
+# ────────────────────────────────────────────────
 
-
-@app.on_message(filters.command("bored", prefixes="/"))
-async def bored_command(client, message: Message):
-    # Not: requests senkron çalışır; basitlik için korunmuştur.
-    # İsterseniz aiohttp/httpx ile async yapıya çevrilebilir.
+@app.on_message(filters.command("bored"))
+async def bored_command(_, m: Message):
     try:
-        response = requests.get(bored_api_url, timeout=10)
-    except Exception:
-        await message.reply("Etkinlik alınamadı.")
+        r = requests.get("https://apis.scrimba.com/bored/api/activity", timeout=10)
+        data = r.json()
+        act = data.get("activity")
+        if act:
+            return await m.reply(f"Canın mı sıkıldı? Şunu dene:\n\n{act}")
+    except:
+        pass
+
+    await m.reply("Etkinlik alınamadı.")
+
+
+# ────────────────────────────────────────────────
+# 🧠 MATEMATİK OYUNU (BUTONLU + OTOMATİK YENİ SORU)
+# ────────────────────────────────────────────────
+
+# chat_id → {"user_id": int, "answer": int, "level": str}
+math_sessions = {}
+
+
+def generate_question(level):
+    if level == "easy":
+        a = random.randint(1, 10)
+        b = random.randint(1, 10)
+        op = random.choice(["+", "-"])
+    elif level == "hard":
+        a = random.randint(10, 60)
+        b = random.randint(10, 60)
+        op = random.choice(["+", "-", "*"])
+    else:  # normal
+        a = random.randint(1, 20)
+        b = random.randint(1, 20)
+        op = random.choice(["+", "-", "*"])
+
+    if op == "-" and b > a:
+        a, b = b, a
+
+    correct = a + b if op == "+" else (a - b if op == "-" else a * b)
+
+    return a, b, op, correct
+
+
+@app.on_message(filters.command(["math", "matematik"]))
+async def start_math(_, m: Message):
+    btn = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton("🟢 Kolay", callback_data="math_easy"),
+                InlineKeyboardButton("🟡 Normal", callback_data="math_normal"),
+                InlineKeyboardButton("🔴 Zor", callback_data="math_hard"),
+            ]
+        ]
+    )
+    await m.reply("🧠 <b>Matematik Oyunu</b>\n\nZorluk seç:", reply_markup=btn)
+
+
+@app.on_callback_query(filters.regex(r"^math_(easy|normal|hard)$"))
+async def math_level(_, cq: CallbackQuery):
+    level = cq.data.split("_")[1]
+    chat_id = cq.message.chat.id
+    user_id = cq.from_user.id
+
+    a, b, op, correct = generate_question(level)
+
+    math_sessions[chat_id] = {
+        "user_id": user_id,
+        "answer": correct,
+        "level": level,
+    }
+
+    level_name = {"easy": "Kolay", "normal": "Normal", "hard": "Zor"}[level]
+
+    await cq.message.edit_text(
+        f"🧠 <b>Matematik Oyunu - {level_name}</b>\n\n"
+        f"Soru: <code>{a} {op} {b}</code>\n\n"
+        "Cevabı direkt sayı olarak yaz."
+    )
+    await cq.answer()
+
+
+@app.on_message(filters.text & ~filters.command(""))
+async def math_check(_, m: Message):
+    chat_id = m.chat.id
+    if chat_id not in math_sessions:
         return
 
-    if response.status_code == 200:
-        data = response.json()
-        activity = data.get("activity")
-        if activity:
-            await message.reply(f"Canın mı sıkıldı? Şunu dene:\n\n{activity}")
-        else:
-            await message.reply("Etkinlik bulunamadı.")
-    else:
-        await message.reply("Etkinlik alınamadı.")
+    session = math_sessions[chat_id]
 
+    if m.from_user.id != session["user_id"]:
+        return
+
+    # Sadece sayı cevapları dikkate al
+    try:
+        user_ans = int(m.text.strip())
+    except:
+        return
+
+    correct = session["answer"]
+
+    # → DOĞRU CEVAP — OTOMATİK YENİ SORU
+    if user_ans == correct:
+        level = session["level"]
+        a, b, op, new_correct = generate_question(level)
+
+        math_sessions[chat_id]["answer"] = new_correct
+
+        return await m.reply(
+            "✅ <b>Doğru!</b> 🎉\n"
+            "<i>Yeni soru hazır 👇</i>\n\n"
+            f"📘 <b>Soru:</b> <code>{a} {op} {b}</code>"
+        )
+
+    # → YANLIŞ — İPUCU
+    if user_ans > correct:
+        await m.reply("❌ Yanlış. Daha küçük bir sayı dene.")
+    else:
+        await m.reply("❌ Yanlış. Daha büyük bir sayı dene.")
+
+
+# ────────────────────────────────────────────────
+# 📘 YARDIM METNİ
+# ────────────────────────────────────────────────
 
 __MODULE__ = "Eğlence"
 __HELP__ = """
 <b>🎲 Eğlence Komutları</b>
 
-• <code>/dice</code> — Zar atar.
-• <code>/ludo</code> — Ludo oynar (zar atımı).
-• <code>/dart</code> — Dart atar.
-• <code>/basket</code> veya <code>/basketball</code> — Basket atışı yapar.
-• <code>/football</code> — Futbol şutu dener.
-• <code>/slot</code> veya <code>/jackpot</code> — Slot makinesi çevirir.
-• <code>/bowling</code> — Bowling atışı yapar.
-• <code>/bored</code> — Canı sıkılanlar için rastgele bir etkinlik önerir.
+• <code>/dice</code>
+• <code>/dart</code>
+• <code>/basket</code>
+• <code>/football</code>
+• <code>/slot</code>
+• <code>/bowling</code>
+
+<b>🧠 Matematik Oyunu</b>
+• <code>/math</code> / <code>/matematik</code> — Kolay / Normal / Zor seçilir.
+• Cevap direkt sayı yazılarak verilir.
+• Doğru cevaptan sonra otomatik yeni soru gelir!
 """
-
-
-# ©️ Copyright Reserved - @NoxxOP  Nand Yaduwanshi
-# ===========================================
-# ©️ 2025 Nand Yaduwanshi (aka @NoxxOP)
-# 🔗 GitHub : https://github.com/NoxxOP/ShrutiMusic
-# 📢 Telegram Kanalı : https://t.me/ShrutiBots
-# ===========================================
-# ❤️ ShrutiBots'tan sevgiler
