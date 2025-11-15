@@ -56,14 +56,6 @@ botun olduğu herhangi bir grupta aktif oldukça coin kazanırsın
 """
 
 HELP_6 = """
-<b><u>🕹️ etiket</u></b>
-
-• /utag [metin] — Herkesi etiketler.  
-• /admintag [metin] — Yöneticileri etiketler.  
-• /cancel — Etiketlemeyi durdurur.
-"""
-
-HELP_7 = """
 <b><u>🎀 oyun komutlar </u></b>
 
 • /dice — Zar atar.  
