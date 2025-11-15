@@ -15,18 +15,17 @@ def should_update_progress(chat_id):
     return False
 
 
-# 💠 Beni Grubuna Ekle üstte, 💙 𝐊𝐀𝐍𝐀𝐋 altta (BAR KALDIRILDI)
+# 🔵 Üstte tamamen boş — Bar ve süre satırı kaldırıldı
 def stream_markup_timer(_, chat_id, played, dur):
     if not should_update_progress(chat_id):
         return None
 
     return [
-        [InlineKeyboardButton(text=f"{played}  •  {dur}", callback_data="GetTimer")],
         [
             InlineKeyboardButton(
                 text=_["S_B_1"],
                 url=f"https://t.me/{app.username}?startgroup=true",
-            ),
+            )
         ],
         [
             InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
