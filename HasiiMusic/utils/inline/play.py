@@ -15,28 +15,13 @@ def should_update_progress(chat_id):
     return False
 
 
-def generate_progress_bar(played_sec, duration_sec):
-    if duration_sec == 0:
-        percentage = 0
-    else:
-        percentage = min((played_sec / duration_sec) * 100, 100)
-
-    bar_length = 8
-    filled = int(round(bar_length * percentage / 70))
-    return "▰" * filled + "▱" * (bar_length - filled)
-
-
-# 💠 Beni Grubuna Ekle üstte, 💙 𝐊𝐀𝐍𝐀𝐋 kalın biçimde altta
+# 💠 Beni Grubuna Ekle üstte, 💙 𝐊𝐀𝐍𝐀𝐋 altta (BAR KALDIRILDI)
 def stream_markup_timer(_, chat_id, played, dur):
     if not should_update_progress(chat_id):
         return None
 
-    played_sec = time_to_seconds(played)
-    duration_sec = time_to_seconds(dur)
-    bar = generate_progress_bar(played_sec, duration_sec)
-
     return [
-        [InlineKeyboardButton(text=f"{played} {bar} {dur}", callback_data="GetTimer")],
+        [InlineKeyboardButton(text=f"{played}  •  {dur}", callback_data="GetTimer")],
         [
             InlineKeyboardButton(
                 text=_["S_B_1"],
@@ -46,7 +31,7 @@ def stream_markup_timer(_, chat_id, played, dur):
         [
             InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close"),
             InlineKeyboardButton(
-                text="💙 𝗸𝗮𝗻𝗮𝗹",  # Kalın Unicode stili
+                text="💙 𝗸𝗮𝗻𝗮𝗹",
                 url="https://t.me/MaviDuyuru",
             ),
         ],
