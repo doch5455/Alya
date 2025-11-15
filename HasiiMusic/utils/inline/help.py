@@ -25,11 +25,7 @@ def help_keyboard(_):
             ),
             InlineKeyboardButton(
                 text=_[f"H_B_6"],
-                callback_data="help_callback hb6"
-            ),
-            InlineKeyboardButton(
-                text=_[f"H_B_7"],
-                callback_data="help_callback hb7"
+                callback_data="help_callback hb6"  
             ),
         ]
     )
