@@ -1,25 +1,8 @@
 from pyrogram.types import InlineKeyboardButton
-import time
-from HasiiMusic.utils.formatters import time_to_seconds
 from HasiiMusic import app
 
-LAST_UPDATE_TIME = {}
 
-
-def should_update_progress(chat_id):
-    now = time.time()
-    last = LAST_UPDATE_TIME.get(chat_id, 0)
-    if now - last >= 6:
-        LAST_UPDATE_TIME[chat_id] = now
-        return True
-    return False
-
-
-# 🔵 Üstte tamamen boş — Bar ve süre satırı kaldırıldı
 def stream_markup_timer(_, chat_id, played, dur):
-    if not should_update_progress(chat_id):
-        return None
-
     return [
         [
             InlineKeyboardButton(
